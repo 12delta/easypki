@@ -13,8 +13,8 @@ import (
 	"github.com/12delta/easypki/pkg/certificate"
 	"github.com/12delta/easypki/pkg/easypki"
 	"github.com/12delta/easypki/pkg/store"
-	"github.com/etcd-io/bbolt"
 	"github.com/go-yaml/yaml"
+	"go.etcd.io/bbolt"
 )
 
 func main() {

@@ -24,7 +24,7 @@ import (
 	"reflect"
 
 	"github.com/12delta/easypki/pkg/certificate"
-	"github.com/etcd-io/bbolt"
+	"go.etcd.io/bbolt"
 )
 
 func TestBolt(t *testing.T) {

@@ -24,7 +24,7 @@ import (
 	"time"
 
 	"github.com/12delta/easypki/pkg/store"
-	"github.com/etcd-io/bbolt"
+	"go.etcd.io/bbolt"
 
 	"reflect"
 )

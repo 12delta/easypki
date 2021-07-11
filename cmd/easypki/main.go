@@ -50,7 +50,7 @@ func (r *router) create(c *cli.Context) error {
 			"different name if you need multiple certs for same cn)", c.Command.FullName())
 	}
 
-	commonName := strings.Join(c.Args().Slice(), " ")
+	commonName := strings.Join(c.Args(), " ")
 	var filename string
 	if filename = c.String("filename"); len(filename) == 0 {
 		filename = strings.Replace(commonName, " ", "_", -1)
@@ -125,7 +125,7 @@ func (r *router) revoke(c *cli.Context) error {
 		return fmt.Errorf("Usage: %v path/to/cert.crt", c.Command.FullName())
 	}
 
-	for _, p := range c.Args().Slice() {
+	for _, p := range c.Args() {
 		name := strings.TrimSuffix(path.Base(p), ".crt")
 		ca := path.Base(strings.TrimSuffix(path.Dir(p), store.LocalCertsDir))
 		bundle, err := r.PKI.GetBundle(ca, name)
@@ -160,7 +160,7 @@ func (r *router) run() {
 	app := cli.NewApp()
 	app.Name = "easypki"
 	app.Usage = "Manage pki"
-	app.Authors = []*cli.Author{
+	app.Authors = []cli.Author{
 		{
 			Name:  "Jeremy Clerc",
 			Email: "jeremy@clerc.io",
@@ -180,11 +180,11 @@ func (r *router) run() {
 			Name:        "root",
 			Value:       filepath.Join(os.Getenv("PWD"), "pki_auto_generated_dir"),
 			Usage:       "path to pki root directory",
-			EnvVars:     []string{"PKI_ROOT"},
+			EnvVar:      "PKI_ROOT",
 			Destination: &local.Root,
 		},
 	}
-	app.Commands = []*cli.Command{
+	app.Commands = []cli.Command{
 		{
 			Name:        "revoke",
 			Usage:       "revoke path/to/ca-name/certs/cert path/to/ca-name/certs/cert2",
@@ -243,26 +243,26 @@ func (r *router) run() {
 					Usage: "filename for bundle, use when you generate multiple certs for same cn",
 				},
 				&cli.StringFlag{
-					Name:    "organization",
-					EnvVars: []string{"PKI_ORGANIZATION"},
+					Name:   "organization",
+					EnvVar: "PKI_ORGANIZATION",
 				},
 				&cli.StringFlag{
-					Name:    "organizational-unit",
-					EnvVars: []string{"PKI_ORGANIZATIONAL_UNIT"},
+					Name:   "organizational-unit",
+					EnvVar: "PKI_ORGANIZATIONAL_UNIT",
 				},
 				&cli.StringFlag{
-					Name:    "locality",
-					EnvVars: []string{"PKI_LOCALITY"},
+					Name:   "locality",
+					EnvVar: "PKI_LOCALITY",
 				},
 				&cli.StringFlag{
-					Name:    "country",
-					EnvVars: []string{"PKI_COUNTRY"},
-					Usage:   "Country name, 2 letter code",
+					Name:   "country",
+					EnvVar: "PKI_COUNTRY",
+					Usage:  "Country name, 2 letter code",
 				},
 				&cli.StringFlag{
-					Name:    "province",
-					Usage:   "province/state",
-					EnvVars: []string{"PKI_PROVINCE"},
+					Name:   "province",
+					Usage:  "province/state",
+					EnvVar: "PKI_PROVINCE",
 				},
 				&cli.StringSliceFlag{
 					Name:  "dns, d",
